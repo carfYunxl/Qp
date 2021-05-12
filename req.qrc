@@ -1,0 +1,51 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/ac.jpg</file>
+        <file>icon/addf.jpg</file>
+        <file>icon/addf2.jpg</file>
+        <file>icon/back.jpg</file>
+        <file>icon/back2.jpg</file>
+        <file>icon/bea.jpg</file>
+        <file>icon/cam.jpg</file>
+        <file>icon/count.jpg</file>
+        <file>icon/dark.jpg</file>
+        <file>icon/edit.jpg</file>
+        <file>icon/edit2.jpg</file>
+        <file>icon/edit3.jpg</file>
+        <file>icon/exit.jpg</file>
+        <file>icon/fenzu .jpg</file>
+        <file>icon/fileopen.jpg</file>
+        <file>icon/forword.jpg</file>
+        <file>icon/g1.gif</file>
+        <file>icon/g2.gif</file>
+        <file>icon/g3.gif</file>
+        <file>icon/gr.jpg</file>
+        <file>icon/head.jpg</file>
+        <file>icon/key.jpg</file>
+        <file>icon/lauch.jpg</file>
+        <file>icon/lock.jpg</file>
+        <file>icon/lock.png</file>
+        <file>icon/man.jpg</file>
+        <file>icon/man.png</file>
+        <file>icon/more.jpg</file>
+        <file>icon/ocean.jpg</file>
+        <file>icon/palate.jpg</file>
+        <file>icon/people.jpg</file>
+        <file>icon/play.jpg</file>
+        <file>icon/play2.jpg</file>
+        <file>icon/Q1.jpg</file>
+        <file>icon/Q2.jpg</file>
+        <file>icon/Q3.jpg</file>
+        <file>icon/Q4.jpg</file>
+        <file>icon/QQ_style.jpg</file>
+        <file>icon/set.jpg</file>
+        <file>icon/set2.jpg</file>
+        <file>icon/set3.jpg</file>
+        <file>icon/set3.png</file>
+        <file>icon/stop.jpg</file>
+        <file>icon/uht.jpg</file>
+        <file>icon/windowclose.jpg</file>
+        <file>icon/windowclose2.jpg</file>
+        <file>icon/windowclose3.jpg</file>
+    </qresource>
+</RCC>
