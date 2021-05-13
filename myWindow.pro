@@ -19,13 +19,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     mybutton.cpp \
-    mybuttonclose.cpp \
     mywindow.cpp
 
 HEADERS += \
     mainwindow.h \
     mybutton.h \
-    mybuttonclose.h \
     mywindow.h
 
 FORMS += \

@@ -1,27 +1,44 @@
 #include "mybutton.h"
 #include <QPainter>
-myButton::myButton(QWidget *parent) : QToolButton(parent)
+void myButton::enterEvent(QEvent *)
 {
-    this->setAutoRaise(true);
-    setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-}
-void myButton::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event);
     QPainter painter(this);
-    QPen myPen(Qt::white);
-    QBrush myBrush(Qt::blue);
+    QPen myPen(Qt::black);
+    QBrush myBrush(Qt::cyan);
+    painter.setPen(myPen);
+    painter.setBrush(myBrush);
+    painter.drawRoundRect(0,0,width(),height(),5,5);
+}
+void myButton::leaveEvent(QEvent *)
+{
+    QPainter painter(this);
+    QPen myPen(Qt::black);
+    QBrush myBrush(Qt::green);
 
     painter.setPen(myPen);
     painter.setBrush(myBrush);
-    qreal x = qMin(width(),height());
-    painter.drawEllipse(0,0,x,x);
 
-    QPen pen(Qt::red,2);
-    painter.setPen(pen);
+    painter.drawRoundRect(0,0,width(),height(),5,5);
+}
+void myButton::mousePressEvent(QMouseEvent *)
+{
+    QPainter painter(this);
+    QPen myPen(Qt::black);
+    QBrush myBrush(Qt::red);
 
-    QLineF l(QPointF(x/2 - x*1.414/6,x/2 - x*1.414/6),QPointF(x/2 + x*1.414/6,x/2 + x*1.414/6));
-    QLineF l2(QPointF(x/2 - x*1.414/6,x/2 + x*1.414/6),QPointF(x/2 + x*1.414/6,x/2 - x*1.414/6));
-    painter.drawLine(l);
-    painter.drawLine(l2);
+    painter.setPen(myPen);
+    painter.setBrush(myBrush);
+
+    painter.drawRoundRect(0,0,width(),height(),5,5);
+}
+void myButton::mouseReleaseEvent(QMouseEvent *)
+{
+    QPainter painter(this);
+    QPen myPen(Qt::black);
+    QBrush myBrush(Qt::green);
+
+    painter.setPen(myPen);
+    painter.setBrush(myBrush);
+
+    painter.drawRoundRect(0,0,width(),height(),5,5);
 }

@@ -1,17 +1,19 @@
 #ifndef MYBUTTON_H
 #define MYBUTTON_H
 
+#include <QWidget>
 #include <QToolButton>
-
 class myButton : public QToolButton
 {
     Q_OBJECT
 public:
-    explicit myButton(QWidget *parent = nullptr);
-
-    void paintEvent(QPaintEvent *) override;
-
-signals:
+    myButton(QWidget *parent = nullptr){}
+    ~myButton(){}
+    void enterEvent(QEvent *) override;
+    void leaveEvent(QEvent *) override;
+    void mousePressEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+private:
 
 };
 

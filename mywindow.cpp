@@ -8,14 +8,18 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QDockWidget>
-#include "mybuttonclose.h"
 #include <QFileDialog>
-#include "mybutton.h"
+#include <QDateTime>
+#include <QTimer>
+#include <QSplitter>
+#include <QGraphicsView>
+#include <QMimeData>
 myWindow::myWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::myWindow)
 {
     ui->setupUi(this);
+    /*----------------title bar---------------*/
     setContentsMargins(0,0,0,0);
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -40,8 +44,8 @@ myWindow::myWindow(QWidget *parent)
     mbar->setStyleSheet("background-color:black;"
                         "border-radius:1px;"
                        "color:white");
-
-    /**/
+    /*-------------------------------*/
+    /*---------------title bar button----------------*/
     lb1 = new QToolButton(w1);
     lb1->setIcon(QIcon(":/icon/ac.jpg"));
     lb1->resize(50,50);
@@ -51,16 +55,17 @@ myWindow::myWindow(QWidget *parent)
     lb2->setText("娱乐休闲");
     lb2->setFont(QFont("微软雅黑",15));
 
-    QToolButton *b1 = new QToolButton(w1);b1->setText("min");b1->setFont(QFont("Times",12));
+    QToolButton *b1 = new QToolButton(w1);b1->setIcon(QIcon(":/icon/key.jpg"));b1->setFont(QFont("Times",12));
     connect(b1,&QToolButton::clicked,this,&myWindow::showMinimized);
 
-    QToolButton *b2 = new QToolButton(w1);b2->setText("max");b2->setFont(QFont("Times",12));
+    QToolButton *b2 = new QToolButton(w1);b2->setIcon(QIcon(":/icon/gr.jpg"));b2->setFont(QFont("Times",12));
     connect(b2,&QToolButton::clicked,this,&myWindow::showMaximized);
 
-//    QToolButton *b3 = new QToolButton(w1);b3->setText("close");b3->setFont(QFont("Times",12));
-//    connect(b3,&QToolButton::clicked,this,&myWindow::close);
-    myButton *bb = new myButton(w1);
-    connect(bb,&myButton::clicked,this,&myWindow::close);
+    QToolButton *b3 = new QToolButton(w1);b3->setIcon(QIcon(":/icon/windowclose.jpg"));b3->setFont(QFont("Times",12));
+    connect(b3,&QToolButton::clicked,this,&myWindow::close);
+
+    QToolButton *b4 = new QToolButton(w1);b4->setIcon(QIcon(":/icon/palate.jpg"));b4->setFont(QFont("Times",12));
+    connect(b4,&QToolButton::clicked,this,&myWindow::showNormal);
 
     QHBoxLayout *ly = new QHBoxLayout(w1);
     ly->addWidget(lb1);
@@ -68,54 +73,97 @@ myWindow::myWindow(QWidget *parent)
     ly->addStretch();
     ly->addWidget(b1);
     ly->addWidget(b2);
-    ly->addWidget(bb);
-    //ly->addWidget(b3);
-
+    ly->addWidget(b4);
+    ly->addWidget(b3);
     w1->setLayout(ly);
-    /**/
+    /*---------------file----------------*/
+    QAction *fOpen = new QAction(QIcon(":/icon/ac.jpg"),"Open",this);
+    QAction *fSave = new QAction(QIcon(":/icon/addf.jpg"),"Save",this);
+    QAction *fSaveAs = new QAction(QIcon(":/icon/addf2.jpg"),"Save as",this);
+    QAction *fNew = new QAction(QIcon(":/icon/back.jpg"),"New",this);
+    QList<QAction *> file = {
+                            fOpen,
+                            fSave,
+                            fSaveAs,
+                            fNew
+                            };
+    /*----------------draw---------------*/
+    QAction *dPoint = new QAction(QIcon(":/icon/back2.jpg"),"Point",this);
+    QAction *dLine = new QAction(QIcon(":/icon/bea.jpg"),"Line",this);
+    QAction *dRect = new QAction(QIcon(":/icon/cam.jpg"),"Rect",this);
+    QAction *dCircle = new QAction(QIcon(":/icon/count.jpg"),"Circle",this);
+    QList<QAction *> draw = {
+                            dPoint,dLine,dRect,dCircle
+                            };
 
-    QList<QAction *> pf = {new QAction(QIcon(":/icon/Q1.jpg"),"1",this),
-                           new QAction(QIcon(":/icon/Q2.jpg"),"2",this),
-                           new QAction(QIcon(":/icon/Q3.jpg"),"3",this),
-                           new QAction(QIcon(":/icon/Q4.jpg"),"4",this)};
-    QToolBar *toolb1 = addToolBar("11111111");
+    connect(dLine,&QAction::triggered,[=](){
+
+    });
+    /*----------------Image---------------*/
+    QAction *iLoad = new QAction(QIcon(":/icon/dark.jpg"),"Load",this);
+    QAction *iChange = new QAction(QIcon(":/icon/edit.jpg"),"Change",this);
+    QAction *iSaveImage = new QAction(QIcon(":/icon/edit2.jpg"),"SaveImage",this);
+    QAction *iDeleteImage = new QAction(QIcon(":/icon/edit3.jpg"),"DeleteImage",this);
+    QList<QAction *> Image = {
+                            iLoad,iChange,iSaveImage,iDeleteImage
+                            };
+    /*----------------Video---------------*/
+    QAction *vOpenVideo = new QAction(QIcon(":/icon/dark.jpg"),"OpenVideo",this);
+    QAction *vStop = new QAction(QIcon(":/icon/edit.jpg"),"Stop",this);
+    QAction *vContinue = new QAction(QIcon(":/icon/edit2.jpg"),"Continue",this);
+    QAction *vSaveVideo = new QAction(QIcon(":/icon/edit3.jpg"),"SaveVideo",this);
+    QList<QAction *> Video = {
+                            vOpenVideo,vStop,vContinue,vSaveVideo
+                            };
+    /*----------------Contact---------------*/
+    QAction *ctac1 = new QAction(QIcon(":/icon/exit.jpg"),"tac1",this);
+    QAction *ctac2 = new QAction(QIcon(":/icon/fenzu.jpg"),"Stop",this);
+    QAction *ctac3 = new QAction(QIcon(":/icon/g1.jpg"),"Continue",this);
+    QAction *ctac4 = new QAction(QIcon(":/icon/g2.jpg"),"SaveVideo",this);
+    QList<QAction *> Contact = {
+                            ctac1,ctac2,ctac3,ctac4
+                            };
+    /*----------------toolbar---------------*/
+    QToolBar *toolb1 = addToolBar("File");
+    toolb1->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolb1->setStyleSheet("background-color:lightgray;");
-    toolb1->addActions(pf);
+    toolb1->addActions(file);
 
-    QToolBar *toolb2 = addToolBar("222222222222");
+    QToolBar *toolb2 = addToolBar("Draw");
+    toolb2->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolb2->setStyleSheet("background-color:lightgray;");
-    toolb2->addActions(pf);
+    toolb2->addActions(draw);
 
-    QToolBar *toolb3 = addToolBar("333333333");
+    QToolBar *toolb3 = addToolBar("Image");
+    toolb3->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolb3->setStyleSheet("background-color:lightgray;");
-    toolb3->addActions(pf);
+    toolb3->addActions(Image);
 
-    QToolBar *toolb4 = addToolBar("44444444444");
+    QToolBar *toolb4 = addToolBar("Video");
+    toolb4->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolb4->setStyleSheet("background-color:lightgray;");
-    toolb4->addActions(pf);
+    toolb4->addActions(Video);
+    /*----------------menu---------------*/
+    QMenu *mfile = mbar->addMenu("File");
+    mfile->addActions(file);
 
-    QMenu *file = mbar->addMenu("File");
-    file->addActions(pf);
+    QMenu *mEdit = mbar->addMenu("Edit");
+    mEdit->addActions(draw);
 
-    QMenu *Edit = mbar->addMenu("Edit");
-    Edit->addActions(pf);
+    QMenu *mImage = mbar->addMenu("Image");
+    mImage->addActions(Image);
 
-    QMenu *Image = mbar->addMenu("Image");
-    Image->addActions(pf);
+    QMenu *mVideo = mbar->addMenu("Video");
+    mVideo->addActions(Video);
 
-    QMenu *Video = mbar->addMenu("Video");
-    Video->addActions(pf);
-
-    QMenu *Contact = mbar->addMenu("Contact");
-    Contact->addActions(pf);
-
+    QMenu *mContact = mbar->addMenu("Contact");
+    mContact->addActions(Contact);
+    /*----------------dockWidget---------------*/
     QDockWidget *dockwidget = new QDockWidget("my dockWidget",this);
     dockwidget->setAllowedAreas(Qt::AllDockWidgetAreas);
     dockwidget->setFeatures(QDockWidget::AllDockWidgetFeatures);
     this->addDockWidget(Qt::LeftDockWidgetArea,dockwidget);
-
     QTabWidget *tbw = new QTabWidget;
-
     QWidget *page1 = new QWidget;
     QVBoxLayout *l1 = new QVBoxLayout;
 
@@ -143,28 +191,39 @@ myWindow::myWindow(QWidget *parent)
     btn5->setText("第六个按钮！");
     btn5->setStyleSheet("selection-background-color:red");
 
-    //
-    myButton *b = new myButton();
-    b->resize(60,60);
-    b->setText("****");
-    connect(b,&myButton::clicked,[=](){
-        qDebug()<<"pressed!";
-        myButtonClose *button = new myButtonClose(nullptr);
-        button->show();
-    });
-    b->setStyleSheet("selection-background-color:red");
-    //
     l2->addWidget(btn3);
     l2->addWidget(btn4);
     l2->addWidget(btn5);
-    l2->addWidget(b);
     l2->addStretch(0);
     page2->setLayout(l2);
     tbw->addTab(page2,"second page");
-
-
     dockwidget->setWidget(tbw);
 
+    /*----------------statusBar---------------*/
+    QLabel *lab_s = new QLabel(this);
+    lab_s->setStyleSheet("color:white");
+    statusBar()->addPermanentWidget(lab_s);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer,&QTimer::timeout,[=](){
+        lab_s->setText(QDateTime::currentDateTime().toString());
+    });
+    timer->start(10);
+
+    /*----------------CentralWidget---------------*/
+    QSplitter *splitter = new QSplitter(Qt::Horizontal,this);
+    setCentralWidget(splitter);
+    te = new QTextEdit(this);
+    QGraphicsView *graphicsView = new QGraphicsView(this);
+    splitter->addWidget(graphicsView);
+    splitter->addWidget(te);
+    splitter->setStretchFactor(0,3);
+    splitter->setStretchFactor(1,1);
+
+    /*----------------te可拖放显示文件---------------*/
+    te->setAcceptDrops(false);
+    this->setAcceptDrops(true);
+    /*----------------graphicsView---------------*/
 
 }
 
@@ -213,4 +272,45 @@ void myWindow::changeImage()
     {
         lb1->setIcon(QIcon(path));
     }
+}
+void myWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    if(event->mimeData()->hasFormat("text/uri-list"))
+    {
+        event->acceptProposedAction();
+    }
+}
+
+void myWindow::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if(urls.isEmpty())
+    {
+        return;
+    }
+
+    QString fileName = urls.first().toLocalFile();
+    if(fileName.isEmpty())
+    {
+        return;
+    }
+    if(readFile(fileName))
+    {
+        te->setWindowTitle(tr("%1 - %2").arg(fileName).arg(tr("Drag File")));
+    }
+
+
+}
+bool myWindow::readFile(QString filePath)
+{
+    QFile file(filePath);
+        if(file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QString read = file.readAll();
+            te->setText(read);
+            file.close();
+            return true;
+        }
+        else
+            return false;
 }
