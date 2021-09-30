@@ -14,6 +14,19 @@ Syntax highlighted code block
 # Header 1
 ## Header 2
 ### Header 3
+Mat Mat::M_cvt() const
+{
+    Mat tmp(this->col,this->row);
+    for(int i = 0;i < this->row;++i)
+    {
+        for(int j = 0;j < this->col;++j)
+        {
+            tmp.array[j][i] = this->array[i][j];
+        }
+
+    }
+    return tmp;
+}
 
 - Bulleted
 - List
